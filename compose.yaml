@@ -1,0 +1,22 @@
+# Standalone run of vivosun-fetcher. In the homelab it is part of the camera stack.
+# CLI equivalent: scripts/docker-run.sh
+services:
+  vivosun-fetcher:
+    image: ghcr.io/igridz/vivosun-fetcher:latest
+    build: .
+    container_name: vivosun-fetcher
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      TZ: Europe/Berlin
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - media
+
+networks:
+  media:
+    external: true
